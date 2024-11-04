@@ -31,4 +31,7 @@ selected_class = st.selectbox('반을 선택하세요:', classes)
 number = st.number_input('번호를 입력하세요', min_value=1, step=1, value=1)
 
 # 시작날짜 선택창 생성
-start_date = st.date_input("날짜를 선택하세요", date.today())
+start_date = st.date_input("시작날짜를 선택하세요", date.today())
+
+# 끝 날짜 선택창 생성
+end_date = st.date_input("끝나는 날짜를 선택하세요", date.today())
