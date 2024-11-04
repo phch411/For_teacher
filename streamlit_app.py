@@ -35,3 +35,11 @@ start_date = st.date_input("시작날짜를 선택하세요", date.today())
 
 # 끝 날짜 선택창 생성
 end_date = st.date_input("끝나는 날짜를 선택하세요", date.today())
+
+# 세부사항 옵션 리스트 생성
+reasons = [
+    '출석인정', '질병', '기타', '미인정'
+]
+
+# 선택창 생성
+selected_reason = st.selectbox('결석 세부사항을 선택하세요:', reasons)
