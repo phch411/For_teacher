@@ -12,7 +12,7 @@ st.write(
 )
 
 # 이름 입력창 생성
-st.text_input('이름을 입력하세요', '')
+name = st.text_input('이름을 입력하세요', '')
 
 
 # 학년 옵션 리스트 생성
@@ -53,9 +53,12 @@ else:
     st.error("종료 날짜는 시작 날짜보다 늦어야 합니다.")
 
 # 세부사항 옵션 리스트 생성
-reasons = [
+details = [
     '출석인정', '질병', '기타', '미인정'
 ]
 
 # 선택창 생성
-selected_reason = st.selectbox('결석 세부사항을 선택하세요:', reasons)
+selected_details = st.selectbox('결석 세부사항을 선택하세요:', details)
+
+# 사유 입력창 생성
+reason = st.text_input('사유를 입력하세요', '')
