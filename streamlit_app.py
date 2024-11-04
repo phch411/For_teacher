@@ -12,5 +12,10 @@ grades = [
 # 선택창 생성
 selected_grade = st.selectbox('학년을 선택하세요:', grades)
 
-# 선택된 학년 표시
-st.write('선택된 학년:', selected_grade)
+# 반 옵션 리스트 생성
+classes = [
+    '1반', '2반'
+]
+
+# 선택창 생성
+selected_class = st.selectbox('반을 선택하세요:', classes)
