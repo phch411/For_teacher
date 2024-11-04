@@ -21,7 +21,7 @@ classes = [
 selected_class = st.selectbox('반을 선택하세요:', classes)
 
 # 번호 입력창 생성
-number = st.number_input('Insert a number')
+number = st.number_input('Insert a number', min_value=1, step=1, value=1)
 
 
 st.text_input('이름을 입력하세요', '')
