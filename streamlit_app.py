@@ -1,5 +1,11 @@
 import streamlit as st
 from datetime import date
+from docxtpl import DocxTemplate 
+import io
+
+
+
+
 
 
 def calculate_absence_period(start_date, end_date):
@@ -64,3 +70,39 @@ else:
     # 사유 입력창 생성
     reason = st.text_input('사유를 입력하세요', '')
 
+# 문서 생성 함수
+def create_absence_note(context):
+    doc = DocxTemplate("예시문서.docx")  # 여기에 템플릿 파일 이름을 넣으세요
+    doc.render(context)
+    doc_io = io.BytesIO()
+    doc.save(doc_io)
+    doc_io.seek(0)
+    return doc_io
+
+# 결석계 생성 버튼
+if st.button("결석계 생성"):
+    if name and grade and class_num and student_num and start_date <= end_date:
+        context = {
+            'name': name,
+            'grade': grade,
+            'class': class_num,
+            'number': student_num,
+            'start_date': start_date.strftime("%Y년 %m월 %d일"),
+            'end_date': end_date.strftime("%Y년 %m월 %d일"),
+            'days': absence_days
+        }
+        
+        doc_io = create_absence_note(context)
+        
+        # 다운로드 버튼 생성
+        st.download_button(
+            label="결석계 다운로드",
+            data=doc_io,
+            file_name=f"{name}_결석계.docx",
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
+    else:
+        st.error("모든 필드를 올바르게 입력해주세요.")
+
+# 주의사항 표시
+st.info("주의: 결석계 템플릿 파일(absence_note_template.docx)이 앱과 같은 디렉토리에 있어야 합니다.")
