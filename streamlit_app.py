@@ -39,7 +39,7 @@ with st.sidebar:
     selected_class = st.selectbox('반을 선택하세요:', classes)
 
     # 번호 입력창 생성
-    number = st.number_input('번호를 입력하세요', min_value=1, step=1, value=1)
+    student_num = st.number_input('번호를 입력하세요', min_value=1, step=1, value=1)
 
     # 시작날짜 선택창 생성
     start_date = st.date_input("시작날짜를 선택하세요", date.today())
@@ -81,15 +81,15 @@ def create_absence_note(context):
 
 # 결석계 생성 버튼
 if st.button("결석계 생성"):
-    if name and grade and class_num and student_num and start_date <= end_date:
+    if name and selected_grade and selected_class and student_num and start_date <= end_date:
         context = {
             'name': name,
-            'grade': grade,
-            'class': class_num,
+            'grade': selected_grade,
+            'class': selected_class,
             'number': student_num,
             'start_date': start_date.strftime("%Y년 %m월 %d일"),
             'end_date': end_date.strftime("%Y년 %m월 %d일"),
-            'days': absence_days
+            'days': absence_period
         }
         
         doc_io = create_absence_note(context)
