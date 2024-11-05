@@ -10,9 +10,10 @@ st.title("🎈 명덕초 결석계 만들기")
 st.write(
     "아래의 순서에 따라 만들어 봅시다."
 )
+with st.sidebar:
 
-# 이름 입력창 생성
-name = st.text_input('이름을 입력하세요', '')
+    # 이름 입력창 생성
+    name = st.text_input('이름을 입력하세요', '')
 
 
 # 학년 옵션 리스트 생성
