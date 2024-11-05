@@ -1,7 +1,5 @@
 import streamlit as st
 from datetime import date
-from docxtpl import DocxTemplate
-import os
 
 
 def calculate_absence_period(start_date, end_date):
@@ -65,5 +63,3 @@ selected_details = st.selectbox('결석 세부사항을 선택하세요:', detai
 # 사유 입력창 생성
 reason = st.text_input('사유를 입력하세요', '')
 
-# 기존 문서 로드
-doc = Document('template.docx')
