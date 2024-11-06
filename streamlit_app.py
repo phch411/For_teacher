@@ -82,7 +82,8 @@ if st.button("결석계 생성"):
             'end_date': st.session_state.end_date.strftime("%Y년 %m월 %d일"),
             'days': absence_period,
             'details': st.session_state.selected_details,
-            'reason': st.session_state.reason
+            'reason': st.session_state.reason,
+            'today': date.today().strftime("%Y년 %m월 %d일")
         }
         
         doc_io = create_absence_note(context)
