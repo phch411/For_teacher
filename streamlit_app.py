@@ -81,9 +81,7 @@ reason = st.text_input('사유를 입력하세요')
 
 # 결석계 생성 버튼
 if st.button("결석계 생성"):
-    if uploaded_template is None:
-        st.error("템플릿 파일을 먼저 업로드해주세요.")
-    elif name and selected_grade and selected_class and student_num and start_date <= end_date:
+    if name and selected_grade and selected_class and student_num and start_date <= end_date:
         context = {
             'name': name,
             'grade': selected_grade,
@@ -93,11 +91,10 @@ if st.button("결석계 생성"):
             'end_date': end_date.strftime("%Y년 %m월 %d일"),
             'days': absence_period,
             'details': selected_details,
-            'reason': reason,
-            'today': date.today().strftime("%Y년 %m월 %d일")
+            'reason': reason
         }
         
-        doc_io = create_absence_note(uploaded_template, context)
+        doc_io = create_absence_note(context)
         
          # 다운로드 버튼 생성
         st.download_button(
