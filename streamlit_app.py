@@ -42,74 +42,47 @@ st.write(
     "아래의 순서에 따라 만들어 봅시다."
 )
 with st.sidebar:
-
-    # 이름 입력창 생성
-    name = st.text_input('이름을 입력하세요', '')
-
-
-    # 학년 옵션 리스트 생성
-    grades = [
-        '1', '2', '3', '4', '5', '6'
-    ]
-
-    # 선택창 생성
-    selected_grade = st.selectbox('학년을 선택하세요:', grades)
-
-    # 반 옵션 리스트 생성
-    classes = [
-        '1', '2'
-    ]
-
-    # 반 선택창 생성
-    selected_class = st.selectbox('반을 선택하세요:', classes)
-
-    # 번호 입력창 생성
-    student_num = st.number_input('번호를 입력하세요', min_value=1, step=1, value=1)
-
-    # 시작날짜 선택창 생성
-    start_date = st.date_input("시작날짜를 선택하세요", date.today())
-
-    # 끝 날짜 선택창 생성
-    end_date = st.date_input("끝나는 날짜를 선택하세요", date.today())
-
-# 기간 알리는 창 만들기
-if start_date <= end_date:
-    # 결석 기간 계산
-    absence_period = calculate_absence_period(start_date, end_date)
+    st.session_state.name = st.text_input('이름을 입력하세요', st.session_state.name)
     
-    # 결과 표시
-    st.write(f"결석 시작일: {start_date}")
-    st.write(f"결석 종료일: {end_date}")
+    grades = ['1', '2', '3', '4', '5', '6']
+    st.session_state.selected_grade = st.selectbox('학년을 선택하세요:', grades, index=grades.index(st.session_state.selected_grade))
+    
+    classes = ['1', '2']
+    st.session_state.selected_class = st.selectbox('반을 선택하세요:', classes, index=classes.index(st.session_state.selected_class))
+    
+    st.session_state.student_num = st.number_input('번호를 입력하세요', min_value=1, step=1, value=st.session_state.student_num)
+    
+    st.session_state.start_date = st.date_input("시작날짜를 선택하세요", st.session_state.start_date)
+    st.session_state.end_date = st.date_input("끝나는 날짜를 선택하세요", st.session_state.end_date)
+
+if st.session_state.start_date <= st.session_state.end_date:
+    absence_period = calculate_absence_period(st.session_state.start_date, st.session_state.end_date)
+    st.write(f"결석 시작일: {st.session_state.start_date}")
+    st.write(f"결석 종료일: {st.session_state.end_date}")
     st.write(f"총 결석 기간: {absence_period}일")
 else:
     st.error("종료 날짜는 시작 날짜보다 늦어야 합니다.")
 
-# 세부사항 옵션 리스트 생성
-details = [
-    '출석인정', '질병', '기타', '미인정'
-]
+details = ['출석인정', '질병', '기타', '미인정']
+st.session_state.selected_details = st.selectbox('결석 세부사항을 선택하세요:', details, index=details.index(st.session_state.selected_details))
 
-# 선택창 생성
-selected_details = st.selectbox('결석 세부사항을 선택하세요:', details)
-
-# 사유 입력창 생성
-reason = st.text_input('사유를 입력하세요')
+st.session_state.reason = st.text_input('사유를 입력하세요', st.session_state.reason)
 
 
 
 # 결석계 생성 버튼
 if st.button("결석계 생성"):
-    if name and selected_grade and selected_class and student_num and start_date <= end_date:
+    if st.session_state.name and st.session_state.selected_grade and st.session_state.selected_class and st.session_state.student_num and st.session_state.start_date <= st.session_state.end_date:
         context = {
-            'name': name,
-            'grade': selected_grade,
-            'class': selected_class,
-            'number': student_num,
-            'start_date': start_date.strftime("%Y년 %m월 %d일"),
-            'end_date': end_date.strftime("%Y년 %m월 %d일"),
+            'name': st.session_state.name,
+            'grade': st.session_state.selected_grade,
+            'class': st.session_state.selected_class,
+            'number': st.session_state.student_num,
+            'start_date': st.session_state.start_date.strftime("%Y년 %m월 %d일"),
+            'end_date': st.session_state.end_date.strftime("%Y년 %m월 %d일"),
             'days': absence_period,
-            'details': selected_details,
-            'reason': reason
+            'details': st.session_state.selected_details,
+            'reason': st.session_state.reason
         }
         
         doc_io = create_absence_note(context)
@@ -118,7 +91,7 @@ if st.button("결석계 생성"):
         st.download_button(
             label="결석계 다운로드",
             data=doc_io,
-            file_name=f"{name}_결석계.docx",
+            file_name=f"{st.session_state.name}_결석계.docx",
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         )
     else:
