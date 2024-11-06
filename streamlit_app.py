@@ -5,9 +5,6 @@ import io
 
 
 
-# 템플릿 파일 업로더 추가
-uploaded_template = st.file_uploader("결석계 템플릿 파일 (.docx) 업로드", type="docx")
-
 
 def calculate_absence_period(start_date, end_date):
     return (end_date - start_date).days + 1  # 끝 날짜도 포함하므로 1을 더합니다
@@ -96,8 +93,8 @@ if st.button("결석계 생성"):
             'end_date': end_date.strftime("%Y년 %m월 %d일"),
             'days': absence_period,
             'details': selected_details,
-            'reason': reason
-            'today': date.strftime("%Y년 %m월 %d일")
+            'reason': reason,
+            'today': date.today().strftime("%Y년 %m월 %d일")
         }
         
         doc_io = create_absence_note(uploaded_template, context)
