@@ -19,6 +19,24 @@ def create_absence_note(context):
     doc_io.seek(0)
     return doc_io
 
+# 세션 상태 초기화
+if 'name' not in st.session_state:
+    st.session_state.name = ''
+if 'selected_grade' not in st.session_state:
+    st.session_state.selected_grade = '1'
+if 'selected_class' not in st.session_state:
+    st.session_state.selected_class = '1'
+if 'student_num' not in st.session_state:
+    st.session_state.student_num = 1
+if 'start_date' not in st.session_state:
+    st.session_state.start_date = date.today()
+if 'end_date' not in st.session_state:
+    st.session_state.end_date = date.today()
+if 'selected_details' not in st.session_state:
+    st.session_state.selected_details = '출석인정'
+if 'reason' not in st.session_state:
+    st.session_state.reason = ''
+
 st.title("🎈 명덕초 결석계 만들기")
 st.write(
     "아래의 순서에 따라 만들어 봅시다."
