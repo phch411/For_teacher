@@ -9,6 +9,15 @@ import io
 def calculate_absence_period(start_date, end_date):
     return (end_date - start_date).days + 1  # 끝 날짜도 포함하므로 1을 더합니다
 
+def adjust_date(end_date):
+    # 3일 추가
+    new_date = end_date + timedelta(days=3)
+    # 주말인지 체크
+    if new_date.weekday() == 5:  # 토요일
+        new_date += timedelta(days=2)  # 월요일로 설정
+    elif new_date.weekday() == 6:  # 일요일
+        new_date += timedelta(days=1)  # 월요일로 설정
+    return new_date
 
 # 문서 생성 함수
 def create_absence_note(context):
@@ -73,6 +82,8 @@ st.session_state.reason = st.text_input('사유를 입력하세요', st.session_
 # 결석계 생성 버튼
 if st.button("결석계 생성"):
     if st.session_state.name and st.session_state.selected_grade and st.session_state.selected_class and st.session_state.student_num and st.session_state.start_date <= st.session_state.end_date:
+        absence_period = calculate_absence_period(st.session_state.start_date, st.session_state.end_date)
+        today = adjust_date(st.session_state.end_date)
         context = {
             'name': st.session_state.name,
             'grade': st.session_state.selected_grade,
@@ -83,7 +94,7 @@ if st.button("결석계 생성"):
             'days': absence_period,
             'details': st.session_state.selected_details,
             'reason': st.session_state.reason,
-            'today': date.today().strftime("%Y년 %m월 %d일")
+            'today': today.strftime("%Y년 %m월 %d일")
         }
         
         doc_io = create_absence_note(context)
