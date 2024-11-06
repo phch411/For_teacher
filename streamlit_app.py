@@ -63,6 +63,12 @@ with st.sidebar:
     
     st.session_state.start_date = st.date_input("시작날짜를 선택하세요", st.session_state.start_date)
     st.session_state.end_date = st.date_input("끝나는 날짜를 선택하세요", st.session_state.end_date)
+    
+    details = ['출석인정', '질병', '기타', '미인정']
+    st.session_state.selected_details = st.selectbox('결석 세부사항을 선택하세요:', details, index=details.index(st.session_state.selected_details))
+
+    st.session_state.reason = st.text_input('사유를 입력하세요', st.session_state.reason)
+
 
 if st.session_state.start_date <= st.session_state.end_date:
     absence_period = calculate_absence_period(st.session_state.start_date, st.session_state.end_date)
@@ -71,11 +77,6 @@ if st.session_state.start_date <= st.session_state.end_date:
     st.write(f"총 결석 기간: {absence_period}일")
 else:
     st.error("종료 날짜는 시작 날짜보다 늦어야 합니다.")
-
-details = ['출석인정', '질병', '기타', '미인정']
-st.session_state.selected_details = st.selectbox('결석 세부사항을 선택하세요:', details, index=details.index(st.session_state.selected_details))
-
-st.session_state.reason = st.text_input('사유를 입력하세요', st.session_state.reason)
 
 
 
