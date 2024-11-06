@@ -12,6 +12,15 @@ def calculate_absence_period(start_date, end_date):
     return (end_date - start_date).days + 1  # 끝 날짜도 포함하므로 1을 더합니다
 
 
+# 문서 생성 함수
+def create_absence_note(context):
+    doc = DocxTemplate("2024. 결석신고서 양식.docx")  # 여기에 템플릿 파일 이름을 넣으세요
+    doc.render(context)
+    doc_io = io.BytesIO()
+    doc.save(doc_io)
+    doc_io.seek(0)
+    return doc_io
+
 st.title("🎈 명덕초 결석계 만들기")
 st.write(
     "아래의 순서에 따라 만들어 봅시다."
@@ -59,25 +68,18 @@ if start_date <= end_date:
 else:
     st.error("종료 날짜는 시작 날짜보다 늦어야 합니다.")
 
-    # 세부사항 옵션 리스트 생성
-    details = [
-        '출석인정', '질병', '기타', '미인정'
-    ]
+# 세부사항 옵션 리스트 생성
+details = [
+    '출석인정', '질병', '기타', '미인정'
+]
 
-    # 선택창 생성
-    selected_details = st.selectbox('결석 세부사항을 선택하세요:', details)
+# 선택창 생성
+selected_details = st.selectbox('결석 세부사항을 선택하세요:', details)
 
-    # 사유 입력창 생성
-    reason = st.text_input('사유를 입력하세요', '')
+# 사유 입력창 생성
+reason = st.text_input('사유를 입력하세요')
 
-# 문서 생성 함수
-def create_absence_note(context):
-    doc = DocxTemplate("예시문서.docx")  # 여기에 템플릿 파일 이름을 넣으세요
-    doc.render(context)
-    doc_io = io.BytesIO()
-    doc.save(doc_io)
-    doc_io.seek(0)
-    return doc_io
+
 
 # 결석계 생성 버튼
 if st.button("결석계 생성"):
