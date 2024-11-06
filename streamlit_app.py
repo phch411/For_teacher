@@ -108,6 +108,16 @@ if st.button("결석계 생성"):
         )
         st.success(f"결석계가 생성되었습니다. 오늘 날짜는 {today.strftime('%Y년 %m월 %d일')}로 설정되었습니다.")
 
+         # 프린터 출력 버튼 추가
+        st.markdown("""
+        <script>
+        function printDoc() {
+            window.print();
+        }
+        </script>
+        <button onclick="printDoc()">프린터 출력</button>
+        """, unsafe_allow_html=True)
+
     else:
         st.error("모든 필드를 올바르게 입력해주세요.")
 
