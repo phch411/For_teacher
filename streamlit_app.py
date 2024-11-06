@@ -14,8 +14,8 @@ def calculate_absence_period(start_date, end_date):
 
 
 # 문서 생성 함수
-def create_absence_note(template_file, context):
-    doc = DocxTemplate(template_file)
+def create_absence_note(context):
+    doc = DocxTemplate("2024. 결석신고서 양식.docx")  # 템플릿 파일 이름
     doc.render(context)
     doc_io = io.BytesIO()
     doc.save(doc_io)
@@ -34,7 +34,7 @@ with st.sidebar:
 
     # 학년 옵션 리스트 생성
     grades = [
-        '1학년', '2학년', '3학년', '4학년', '5학년', '6학년'
+        '1', '2', '3', '4', '5', '6'
     ]
 
     # 선택창 생성
@@ -42,7 +42,7 @@ with st.sidebar:
 
     # 반 옵션 리스트 생성
     classes = [
-        '1반', '2반'
+        '1', '2'
     ]
 
     # 반 선택창 생성
@@ -97,6 +97,7 @@ if st.button("결석계 생성"):
             'days': absence_period,
             'details': selected_details,
             'reason': reason
+            'today': date.strftime("%Y년 %m월 %d일")
         }
         
         doc_io = create_absence_note(uploaded_template, context)
