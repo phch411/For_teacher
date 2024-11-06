@@ -1,5 +1,5 @@
 import streamlit as st
-from datetime import date
+from datetime import date, timedelta
 from docxtpl import DocxTemplate 
 import io
 
@@ -107,7 +107,7 @@ if st.button("결석계 생성"):
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         )
         st.success(f"결석계가 생성되었습니다. 오늘 날짜는 {today.strftime('%Y년 %m월 %d일')}로 설정되었습니다.")
-        
+
     else:
         st.error("모든 필드를 올바르게 입력해주세요.")
 
